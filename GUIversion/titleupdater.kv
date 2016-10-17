@@ -102,9 +102,10 @@
                     TextInput:
                         size_hint_x: 128
                         id: streamTitleUpdateText
-                        readonly: False
+                        readonly: True
                         text: "If the script was successful, this text will change"
                         multiline: False
+                        write_tab: False
                         #background_color: [0.6, 0.2, 0.8, 1]
                         background_color: [1,1,1,0]
                         #foreground_color: [1, 1, 1, 1]
@@ -135,9 +136,9 @@
                     TextInput:
                         id: exampleTitleText
                         size_hint_x: 6
-                        text: ""
                         readonly: True
                         multiline: False
+                        write_tab: False
                         #background_color: [0.6, 0.2, 0.8, 1]
                         background_color: [1,1,1,0]
                         foreground_color: [0.4, 0.7, 0.9, 1]
@@ -152,27 +153,18 @@
                         text_size: (self.width,self.height)
                         halign: 'right'
                         valign: 'middle'
-                    TextInput:
+                    MyTextInput:
                         id: customPreText
-                        text: ""
-                        multiline: False
                         on_text: root.updateExampleTitle()
-                        background_color: [0.3, 0.3, 0.3, 1]
-                        foreground_color: [1, 1, 1, 1]
-
 
                     Label:
                         text: "Custom text after the automated text:"
                         text_size: (self.width,self.height)
                         halign: 'right'
                         valign: 'middle'
-                    TextInput:
+                    MyTextInput:
                         id: customPostText
-                        text: ""
-                        multiline: False
                         on_text: root.updateExampleTitle()
-                        background_color: [0.3, 0.3, 0.3, 1]
-                        foreground_color: [1, 1, 1, 1]
 
                     Label:
                         text: "Show races?"
@@ -226,14 +218,9 @@
                         text_size: (self.width,self.height)
                         halign: 'right'
                         valign: 'middle'
-                    TextInput:
+                    MyTextInput:
                         id: titleUpdateIntervalText
                         text: "10"
-                        multiline: False
-                        background_color: [0.3, 0.3, 0.3, 1]
-                        foreground_color: [1, 1, 1, 1]
-
-
 
 
 
@@ -265,12 +252,9 @@
                     text_size: (self.width,self.height)
                     halign: 'right'
                     valign: 'middle'
-                TextInput:
+                MyTextInput:
                     id: clientIDText
-                    text: "Enter ClientID here"
-                    multiline: False
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
+                    hint_text: "Enter ClientID here"
                 Button:
                     id: clientIDBtn
                     text: "Register app to get ClientID"
@@ -284,12 +268,9 @@
                     text_size: (self.width,self.height)
                     halign: 'right'
                     valign: 'middle'
-                TextInput:
+                MyTextInput:
                     id: oAUTHText
-                    text: "ClientID entered? Then click ->"
-                    multiline: False
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
+                    hint_text: "ClientID entered? Then click ->"
                 Button:
                     id: oAUTHBtn
                     text: "Get me to my OAUTH"
@@ -303,12 +284,9 @@
                     text_size: (self.width,self.height)
                     halign: 'right'
                     valign: 'middle'
-                TextInput:
+                MyTextInput:
                     id: twitchNameText
-                    text: "Your twitch username"
-                    multiline: False
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
+                    hint_text: "Your twitch username"
                 Button:
                     id: twitchNamebtn
                     text: "Test if twitchname is valid"
@@ -322,45 +300,24 @@
                     text_size: (self.width,self.height)
                     halign: 'right'
                     valign: 'middle'
-                TextInput:
+                MyTextInput:
                     id: ingameID1
-                    multiline: False
-                    text: "Your ingame SC2 name"
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
-                TextInput:
+                    hint_text: "Your ingame SC2 name"
+                MyTextInput:
                     id: ingameID2
-                    multiline: False
-                    text: "Enter more names if you"
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
-                TextInput:
+                    hint_text: "Enter more names if you"
+                MyTextInput:
                     id: ingameID3
-                    multiline: False
-                    text: "have multiple accounts"
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
+                    hint_text: "have multiple accounts"
 
 
                 Label:
-                TextInput:
+                MyTextInput:
                     id: ingameID4
-                    multiline: False
-                    text: ""
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
-                TextInput:
+                MyTextInput:
                     id: ingameID5
-                    multiline: False
-                    text: ""
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
-                TextInput:
+                MyTextInput:
                     id: ingameID6
-                    multiline: False
-                    text: ""
-                    background_color: [0.3, 0.3, 0.3, 1]
-                    foreground_color: [1, 1, 1, 1]
 
 
         TabbedPanelItem:

@@ -8,6 +8,7 @@ from kivy.core.window import Window
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.image import Image
 from kivy.config import Config
+from kivy.uix.textinput import TextInput
 import webbrowser
 import requests
 import time
@@ -29,6 +30,12 @@ Window.size = (1000, 610)
 global timeInterval
 timeInterval = 10
 
+
+class MyTextInput(TextInput):
+    multiline = False
+    write_tab = False
+    background_color = [0.3, 0.3, 0.3, 1]
+    foreground_color = [1, 1, 1, 1]
 
 
 class TitleUpdater(Widget):
