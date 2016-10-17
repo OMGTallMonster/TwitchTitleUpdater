@@ -36,24 +36,24 @@ class TitleUpdater(Widget):
         #set variables to default values
         self.tempSettings2 = []
         self.scriptActive = False
-        self.preText = ""
-        self.postText = ""
+        self.preText = ''
+        self.postText = ''
         self.myIngameIDs = []
-        self.twitchChannel = ""
-        self.oauth = ""
-        self.clientID = ""
+        self.twitchChannel = ''
+        self.oauth = ''
+        self.clientID = ''
         self.allowUpdateWhileInReplay = 1
         self.includeRaces = 1
         self.includeOpponentName = 1
         self.includeTimeStamp = 1
-        self.lastPutString = ""
+        self.lastPutString = ''
 
-        self.creditText.text = "\n\n\n\n\n\n\n\nThanks to Blizzard and Twitch for making this possible via API\n\
+        self.creditText.text = '\n\n\n\n\n\n\n\nThanks to Blizzard and Twitch for making this possible via API\n\
         Thanks to Python, Kivy and PyInstaller for letting me turn this script into an .exe file\n\
         Thanks to my friends Pundurs, Zither, Propagare, Hymirth and Crexis for helping and testing\n\
         \n\
         Created by [GG]BuRny alias BurnySc2\n\
-        2016"
+        2016'
     
     def update(self, dt):    
         global timeInterval
@@ -90,68 +90,68 @@ class TitleUpdater(Widget):
         self.twitchChannel = self.twitchNameText.text
 
         #gameurl and uiurl are the address for the sc2 api, the header for the update is already prepared
-        GAMEurl = "http://localhost:6119/game"
-        UIurl = "http://localhost:6119/ui"
+        GAMEurl = 'http://localhost:6119/game'
+        UIurl = 'http://localhost:6119/ui'
         headers = {'Accept':'application/vnd.twitchtv.v3+json', 'Authorization':'OAuth ' + self.oauth, 'Client-ID':self.clientID}
         try:
-            automatedString = ""
+            automatedString = ''
 
             GAMEresponse = requests.get(GAMEurl, timeout=100).json()
             UIresponse = requests.get(UIurl, timeout=100).json()
             #print(GAMEresponse)
             #print(UIresponse)
             analyse = 0
-            if len(GAMEresponse["players"]) == 2: #activate script if 2 players are playing right now
-                if GAMEresponse["isReplay"]:
+            if len(GAMEresponse['players']) == 2: #activate script if 2 players are playing right now
+                if GAMEresponse['isReplay']:
                     if self.allowUpdateWhileInReplay: #activate script if in replay and variable is =1
                         analyse = 1
                 else:
                     analyse = 1
             if analyse == 1:
-                race1 = GAMEresponse["players"][0]["race"][0].upper() #reduce race of player1 to first letter and capitalize, so 'T'erran
-                race2 = GAMEresponse["players"][1]["race"][0].upper() #reduce race of player2 to first letter and capitalize, so 'P'rotoss
-                name1 = GAMEresponse["players"][0]["name"] #player1 name
-                name2 = GAMEresponse["players"][1]["name"] #player2 name
-                victorious = GAMEresponse["players"][0]["result"]
+                race1 = GAMEresponse['players'][0]['race'][0].upper() #reduce race of player1 to first letter and capitalize, so 'T'erran
+                race2 = GAMEresponse['players'][1]['race'][0].upper() #reduce race of player2 to first letter and capitalize, so 'P'rotoss
+                name1 = GAMEresponse['players'][0]['name'] #player1 name
+                name2 = GAMEresponse['players'][1]['name'] #player2 name
+                victorious = GAMEresponse['players'][0]['result']
                 if name1.lower() in self.myIngameIDs: #if i am player1, do nothing
-                    name1 = ""
+                    name1 = ''
                 elif name2.lower() in self.myIngameIDs: #if i am player 2, swap names and races in position (so its TvZ instead of ZvT if i play terran)
                     race1, race2 = race2, race1
                     name2 = name1
-                    name1 = ""
+                    name1 = ''
                 else:
-                    name1 = "- " + name1 + " " #if my name is not found in "myIngameIDs" then i am an observer casting a match
+                    name1 = '- ' + name1 + ' ' #if my name is not found in "myIngameIDs" then i am an observer casting a match
 
                 if self.includeRaces == 1: #include races in stream title if variable is set to =1
-                    automatedString = race1 + "v" + race2 + " "
+                    automatedString = race1 + 'v' + race2 + ' '
 
-                if self.includeOpponentName and not GAMEresponse["isReplay"]: #include opponent name in stream title if variable is set to =1
-                    automatedString += name1 + "vs " + name2 + " "
+                if self.includeOpponentName and not GAMEresponse['isReplay']: #include opponent name in stream title if variable is set to =1
+                    automatedString += name1 + 'vs ' + name2 + ' '
                         
-                ingameTime = ""
-                if GAMEresponse["isReplay"]: #edit "ingameTime" string to depends if in replay or not
-                    ingameTime = "in Replay"
+                ingameTime = ''
+                if GAMEresponse['isReplay']: #edit "ingameTime" string to depends if in replay or not
+                    ingameTime = 'in Replay'
                 else:
-                    ingameTime = "at " + str(int(GAMEresponse["displayTime"]/60)) + "min"
+                    ingameTime = 'at ' + str(int(GAMEresponse['displayTime']/60)) + 'min'
                 if self.includeTimeStamp:
-                    automatedString += ingameTime + " "
+                    automatedString += ingameTime + ' '
 
-                if victorious != "Undecided": #if game is over and i am in score screen or matchmaking queue, then only put "preText + postText" in stream title
-                    automatedString = ""
-                if UIresponse["activeScreens"] != [] and GAMEresponse["isReplay"] or not self.allowUpdateWhileInReplay and GAMEresponse["isReplay"]: #when you watched a replay and go back to main screen, it still shows as "replay = True" but the UI does not say ingame
-                    automatedString = ""
+                if victorious != 'Undecided': #if game is over and i am in score screen or matchmaking queue, then only put "preText + postText" in stream title
+                    automatedString = ''
+                if UIresponse['activeScreens'] != [] and GAMEresponse['isReplay'] or not self.allowUpdateWhileInReplay and GAMEresponse['isReplay']: #when you watched a replay and go back to main screen, it still shows as "replay = True" but the UI does not say ingame
+                    automatedString = ''
 
-                automatedString = self.preText + " " + automatedString + self.postText
+                automatedString = self.preText + ' ' + automatedString + self.postText
                 if self.lastPutString != automatedString: #if last updated string is not identical to newly constructed string, then update stream title!
                     params = {'channel[status]': automatedString}
                     r = requests.put('https://api.twitch.tv/kraken/channels/' + self.twitchChannel, headers = headers, params = params).raise_for_status()
                     self.lastPutString = automatedString
                     self.streamTitleUpdateText.text = self.lastPutString
-                    print("Updated stream title with: " + automatedString.encode("ascii", "ignore").decode())
+                    print('Updated stream title with: ' + automatedString.encode('ascii', 'ignore').decode())
         except requests.exceptions.ConnectionError: #handle exception when starcraft is detected as not running
-            print("StarCraft 2 not running!")
+            print('StarCraft 2 not running!')
         except ValueError:
-            print("StarCraft 2 starting.")
+            print('StarCraft 2 starting.')
         return 1
 
     def updateExampleTitle(self):
@@ -169,15 +169,15 @@ class TitleUpdater(Widget):
 
     def ClientIDbtnPressed(self):
         #the first button
-        webbrowser.open("https://www.twitch.tv/kraken/oauth2/clients/new")
+        webbrowser.open('https://www.twitch.tv/kraken/oauth2/clients/new')
 
     def OAuthbtnPressed(self):
         #the 2nd button
-        webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + self.clientIDText.text + "&redirect_uri=http://localhost&scope=channel_editor")
+        webbrowser.open('https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=' + self.clientIDText.text + '&redirect_uri=http://localhost&scope=channel_editor')
 
     def twitchLinkbtnPressed(self):
         #3rd button, who would've guessed? :P
-        webbrowser.open("https://www.twitch.tv/" + self.twitchNameText.text.lower()+"/dashboard")
+        webbrowser.open('https://www.twitch.tv/' + self.twitchNameText.text.lower()+'/dashboard')
 
     def loadSettings(self):
         #this will try to load the config file, but it will only work if it exists, and if the config file hasn't been manipulated
@@ -203,7 +203,7 @@ class TitleUpdater(Widget):
             try:
                 self.titleUpdateIntervalText.text = lines[15]
             except:
-                self.titleUpdateIntervalText.text = "10"
+                self.titleUpdateIntervalText.text = '10'
         except: pass
 
     def saveSettings(self, dt):
@@ -212,9 +212,9 @@ class TitleUpdater(Widget):
         try:
             self.tempSettings = [self.clientID, self.oauth, self.twitchChannel, self.myIngameIDs[0], self.myIngameIDs[1], self.myIngameIDs[2], self.myIngameIDs[3], self.myIngameIDs[4], self.myIngameIDs[5], self.preText, self.postText, str(self.includeRaces), str(self.includeOpponentName), str(self.includeTimeStamp), str(self.allowUpdateWhileInReplay), str(timeInterval)]
             if self.tempSettings != self.tempSettings2:
-                f = open("titleUpdater.cfg",'w')
+                f = open('titleUpdater.cfg','w')
                 for i in self.tempSettings:
-                    f.write(i + "\n")
+                    f.write(i + '\n')
                 f.close()
                 self.tempSettings2 = self.tempSettings
         except: pass
